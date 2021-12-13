@@ -15,6 +15,14 @@ func ReadInts(filepath string) []int {
 	return xs
 }
 
+func ReadBytes(filepath string) [][]byte {
+	xs := make([][]byte, 0)
+	for str := range ReadLines(filepath) {
+		xs = append(xs, []byte(str))
+	}
+	return xs
+}
+
 func ReadLines(filepath string) <-chan string {
 	ch := make(chan string)
 	go func() {
