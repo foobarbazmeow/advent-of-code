@@ -11,7 +11,7 @@ func TestReadLines(t *testing.T) {
 	defer os.Remove(filepath)
 	expected := []string{"1", "2", "3"}
 	actual := []string{}
-	for line := range ReadLines(filepath) {
+	for _, line := range ReadLines(filepath) {
 		actual = append(actual, line)
 	}
 	assert.Equal(t, expected, actual)

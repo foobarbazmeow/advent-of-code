@@ -10,7 +10,7 @@ import (
 
 func Test02Part1(t *testing.T) {
 	hor, depth := 0, 0
-	for str := range util.ReadLines("day_02.in") {
+	for _, str := range util.ReadLines("day_02.in") {
 		parts := strings.Split(str, " ")
 		val, _ := strconv.Atoi(parts[1])
 		switch parts[0] {
@@ -27,7 +27,7 @@ func Test02Part1(t *testing.T) {
 
 func Test02Part2(t *testing.T) {
 	hor, depth, aim := 0, 0, 0
-	for str := range util.ReadLines("day_02.in") {
+	for _, str := range util.ReadLines("day_02.in") {
 		parts := strings.Split(str, " ")
 		val, _ := strconv.Atoi(parts[1])
 		switch parts[0] {
