@@ -8,7 +8,7 @@ import (
 
 func Test01Part1(t *testing.T) {
 	xs := util.ReadInts("day_01.in")
-	assert.Equal(t, 435, util.SumInts(xs))
+	assert.Equal(t, 435, sumInts(xs))
 }
 
 func Test01Part2(t *testing.T) {
@@ -23,4 +23,12 @@ func Test01Part2(t *testing.T) {
 		}
 	}
 	assert.Equal(t, 245, current)
+}
+
+func sumInts(xs []int) int {
+	result := 0
+	for _, v := range xs {
+		result += v
+	}
+	return result
 }

@@ -1,6 +1,8 @@
 package year_2018
 
 import (
+	"crypto/sha1"
+	"encoding/base64"
 	"github.com/antigravity/advent-of-code/util"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -30,26 +32,26 @@ func Test18Part2(t *testing.T) {
 
 func countResources(forest [][]byte, minutes int) int {
 	for minute := 0; minute < minutes; minute++ {
-		ops := map[util.IntPair]byte{}
+		ops := map[intPair]byte{}
 		for y := range forest {
 			for x, b := range forest[y] {
 				switch b {
 				case ground:
 					{
-						if util.CountInByteSlice(tree, x, y, forest) >= 3 {
-							ops[util.IntPair{x, y}] = tree
+						if countInByteSlice(tree, x, y, forest) >= 3 {
+							ops[intPair{x, y}] = tree
 						}
 					}
 				case tree:
 					{
-						if util.CountInByteSlice(lumberyard, x, y, forest) >= 3 {
-							ops[util.IntPair{x, y}] = lumberyard
+						if countInByteSlice(lumberyard, x, y, forest) >= 3 {
+							ops[intPair{x, y}] = lumberyard
 						}
 					}
 				case lumberyard:
 					{
-						if util.CountInByteSlice(tree, x, y, forest) < 1 || util.CountInByteSlice(lumberyard, x, y, forest) < 1 {
-							ops[util.IntPair{x, y}] = ground
+						if countInByteSlice(tree, x, y, forest) < 1 || countInByteSlice(lumberyard, x, y, forest) < 1 {
+							ops[intPair{x, y}] = ground
 						}
 					}
 				}
@@ -65,26 +67,26 @@ func countResources(forest [][]byte, minutes int) int {
 func countMinutes(forest [][]byte, minutes int) (int, int) {
 	cache := map[string]int{}
 	for minute := 1; minute <= minutes; minute++ {
-		ops := map[util.IntPair]byte{}
+		ops := map[intPair]byte{}
 		for y := range forest {
 			for x, b := range forest[y] {
 				switch b {
 				case ground:
 					{
-						if util.CountInByteSlice(tree, x, y, forest) >= 3 {
-							ops[util.IntPair{x, y}] = tree
+						if countInByteSlice(tree, x, y, forest) >= 3 {
+							ops[intPair{x, y}] = tree
 						}
 					}
 				case tree:
 					{
-						if util.CountInByteSlice(lumberyard, x, y, forest) >= 3 {
-							ops[util.IntPair{x, y}] = lumberyard
+						if countInByteSlice(lumberyard, x, y, forest) >= 3 {
+							ops[intPair{x, y}] = lumberyard
 						}
 					}
 				case lumberyard:
 					{
-						if util.CountInByteSlice(tree, x, y, forest) < 1 || util.CountInByteSlice(lumberyard, x, y, forest) < 1 {
-							ops[util.IntPair{x, y}] = ground
+						if countInByteSlice(tree, x, y, forest) < 1 || countInByteSlice(lumberyard, x, y, forest) < 1 {
+							ops[intPair{x, y}] = ground
 						}
 					}
 				}
@@ -93,7 +95,7 @@ func countMinutes(forest [][]byte, minutes int) (int, int) {
 		for k, v := range ops {
 			forest[k.Y][k.X] = v
 		}
-		hash := util.ByteSliceHash(forest)
+		hash := byteSliceHash(forest)
 		if v, ok := cache[hash]; ok {
 			return v, minute - v
 		} else {
@@ -116,4 +118,52 @@ func resourceValue(forest [][]byte) int {
 		}
 	}
 	return t * l
+}
+
+func byteSliceHasElement(x, y int, xs [][]byte) bool {
+	if y >= 0 && y <= len(xs)-1 {
+		if x >= 0 && x <= len(xs[0])-1 {
+			return true
+		}
+	}
+	return false
+}
+
+type intPair struct {
+	X, Y int
+}
+
+func adjacentWithDiagonals(x, y int) []intPair {
+	return []intPair{
+		{x - 1, y - 1},
+		{x, y - 1},
+		{x + 1, y - 1},
+
+		{x - 1, y},
+		{x + 1, y},
+
+		{x - 1, y + 1},
+		{x, y + 1},
+		{x + 1, y + 1},
+	}
+}
+
+func byteSliceHash(xs [][]byte) string {
+	h := sha1.New()
+	for _, row := range xs {
+		h.Write(row)
+	}
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
+}
+
+func countInByteSlice(val byte, x, y int, xs [][]byte) int {
+	result := 0
+	for _, p := range adjacentWithDiagonals(x, y) {
+		if byteSliceHasElement(p.X, p.Y, xs) {
+			if xs[p.Y][p.X] == val {
+				result += 1
+			}
+		}
+	}
+	return result
 }
