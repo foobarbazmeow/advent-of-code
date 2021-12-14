@@ -10,55 +10,17 @@ import (
 
 func Test14Part1(t *testing.T) {
 	lines := util.ReadLines("day_14.in")
-	result := applyRules1(lines[0], parseRules(lines[2:]), 10)
+	result := applyRules(lines[0], parseRules(lines[2:]), 10)
 	assert.Equal(t, 2584, result)
 }
 
 func Test14Part2(t *testing.T) {
 	lines := util.ReadLines("day_14.in")
-	result := applyRules2(lines[0], parseRules(lines[2:]), 40)
+	result := applyRules(lines[0], parseRules(lines[2:]), 40)
 	assert.Equal(t, 3816397135460, result)
 }
 
-func applyRules1(tmpl string, rules map[string]byte, steps int) int {
-	template := []byte(tmpl)
-
-	for ; steps > 0; steps-- {
-		xs := []pair{}
-
-		for i := 0; i < len(template)-1; i++ {
-			key := string(template[i : i+2])
-			if v, ok := rules[key]; ok {
-				xs = append(xs, pair{i + 1, v})
-			}
-		}
-
-		offset := 0
-		for _, b := range xs {
-			i := b.idx + offset
-			template = append(template[:i], append([]byte{b.val}, template[i:]...)...)
-			offset++
-		}
-	}
-
-	c := map[byte]int{}
-	for _, b := range template {
-		c[b]++
-	}
-
-	min, max := math.MaxInt, math.MinInt
-	for _, v := range c {
-		if v < min {
-			min = v
-		} else if v > max {
-			max = v
-		}
-	}
-
-	return max - min
-}
-
-func applyRules2(tmpl string, rules map[string]byte, steps int) int {
+func applyRules(tmpl string, rules map[string]byte, steps int) int {
 	xs := map[string]int{}
 	c := map[byte]int{}
 
@@ -91,11 +53,6 @@ func applyRules2(tmpl string, rules map[string]byte, steps int) int {
 	}
 
 	return max - min
-}
-
-type pair struct {
-	idx int
-	val byte
 }
 
 func parseRules(xs []string) map[string]byte {
