@@ -1,8 +1,9 @@
 package year_2021
 
 import (
-	"github.com/antigravity/advent-of-code/util"
+	"bufio"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"strconv"
 	"strings"
 	"testing"
@@ -10,7 +11,7 @@ import (
 
 func Test02Part1(t *testing.T) {
 	hor, depth := 0, 0
-	for _, str := range util.ReadLines("day_02.in") {
+	for _, str := range readLines("day_02.in") {
 		parts := strings.Split(str, " ")
 		val, _ := strconv.Atoi(parts[1])
 		switch parts[0] {
@@ -27,7 +28,7 @@ func Test02Part1(t *testing.T) {
 
 func Test02Part2(t *testing.T) {
 	hor, depth, aim := 0, 0, 0
-	for _, str := range util.ReadLines("day_02.in") {
+	for _, str := range readLines("day_02.in") {
 		parts := strings.Split(str, " ")
 		val, _ := strconv.Atoi(parts[1])
 		switch parts[0] {
@@ -43,4 +44,15 @@ func Test02Part2(t *testing.T) {
 		}
 	}
 	assert.Equal(t, 1685186100, hor*depth)
+}
+
+func readLines(filepath string) []string {
+	xs := make([]string, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, scanner.Text())
+	}
+	return xs
 }

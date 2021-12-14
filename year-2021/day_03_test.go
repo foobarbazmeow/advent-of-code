@@ -1,14 +1,13 @@
 package year_2021
 
 import (
-	"github.com/antigravity/advent-of-code/util"
 	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
 )
 
 func Test03Part1(t *testing.T) {
-	strings := util.ReadLines("day_03.in")
+	strings := readLines("day_03.in")
 	gamma, epsilon := make([]uint8, 12), make([]uint8, 12)
 	for i := 0; i < 12; i++ {
 		xs := make([]uint8, len(strings))
@@ -38,7 +37,7 @@ func Test03Part1(t *testing.T) {
 }
 
 func Test03Part2(t *testing.T) {
-	strings := util.ReadLines("day_03.in")
+	strings := readLines("day_03.in")
 
 	data := make([]int, len(strings))
 	for i := 0; i < len(strings); i++ {

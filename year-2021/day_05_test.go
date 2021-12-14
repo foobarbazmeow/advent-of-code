@@ -2,7 +2,6 @@ package year_2021
 
 import (
 	"fmt"
-	"github.com/antigravity/advent-of-code/util"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -67,7 +66,7 @@ func (v vector) coords() []string {
 
 func parse(filepath string) []vector {
 	xs := make([]vector, 0)
-	for _, line := range util.ReadLines(filepath) {
+	for _, line := range readLines(filepath) {
 		var v vector
 		fmt.Sscanf(line, "%d,%d -> %d,%d", &v.x1, &v.y1, &v.x2, &v.y2)
 		xs = append(xs, v)

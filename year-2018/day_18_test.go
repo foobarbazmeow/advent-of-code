@@ -1,10 +1,11 @@
 package year_2018
 
 import (
+	"bufio"
 	"crypto/sha1"
 	"encoding/base64"
-	"github.com/antigravity/advent-of-code/util"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"testing"
 )
 
@@ -15,17 +16,17 @@ const (
 )
 
 func Test18Part1(t *testing.T) {
-	assert.Equal(t, 558960, countResources(util.ReadBytes("day_18.in"), 10))
+	assert.Equal(t, 558960, countResources(readBytes("day_18.in"), 10))
 }
 
 func Test18Part2(t *testing.T) {
 	minutes := 1000000000
-	left, segment := countMinutes(util.ReadBytes("day_18.in"), minutes)
+	left, segment := countMinutes(readBytes("day_18.in"), minutes)
 	count := (minutes - left) / segment
 	right := minutes - left - (segment * count)
 
-	l := countResources(util.ReadBytes("day_18.in"), left)
-	r := countResources(util.ReadBytes("day_18.in"), left+right) - l
+	l := countResources(readBytes("day_18.in"), left)
+	r := countResources(readBytes("day_18.in"), left+right) - l
 
 	assert.Equal(t, 207900, l+r)
 }
@@ -166,4 +167,15 @@ func countInByteSlice(val byte, x, y int, xs [][]byte) int {
 		}
 	}
 	return result
+}
+
+func readBytes(filepath string) [][]byte {
+	xs := make([][]byte, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, []byte(scanner.Text()))
+	}
+	return xs
 }

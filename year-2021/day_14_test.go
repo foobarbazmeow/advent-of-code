@@ -1,7 +1,6 @@
 package year_2021
 
 import (
-	"github.com/antigravity/advent-of-code/util"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"strings"
@@ -9,13 +8,13 @@ import (
 )
 
 func Test14Part1(t *testing.T) {
-	lines := util.ReadLines("day_14.in")
+	lines := readLines("day_14.in")
 	result := applyRules(lines[0], parseRules(lines[2:]), 10)
 	assert.Equal(t, 2584, result)
 }
 
 func Test14Part2(t *testing.T) {
-	lines := util.ReadLines("day_14.in")
+	lines := readLines("day_14.in")
 	result := applyRules(lines[0], parseRules(lines[2:]), 40)
 	assert.Equal(t, 3816397135460, result)
 }
