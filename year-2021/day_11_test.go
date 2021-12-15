@@ -4,6 +4,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"io"
 	"os"
+	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -46,7 +48,7 @@ func allOctopusFlashAt(xs [][]int) int {
 			}
 		}
 		iteration += 1
-		if intMatrix(xs).AllIs(0) {
+		if allIs(xs, 0) {
 			return iteration
 		}
 	}
@@ -73,4 +75,53 @@ func countFlashesIteration(x, y int, xs [][]int, flashed map[pair]struct{}) int 
 		}
 	}
 	return flashes
+}
+
+func allIs(xs [][]int, num int) bool {
+	for y := 0; y < len(xs); y++ {
+		for x := 0; x < len(xs[0]); x++ {
+			if xs[y][x] != num {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func readIntSlice(in string) [][]int {
+	rows := strings.Split(in, "\n")
+	result := make([][]int, len(rows))
+	for y, str := range rows {
+		row := make([]int, len(str))
+		for x, r := range str {
+			num, _ := strconv.Atoi(string(r))
+			row[x] = num
+		}
+		result[y] = row
+	}
+	return result
+}
+
+func sliceHasElement(xs [][]int, x, y int) bool {
+	if y >= 0 && y <= len(xs)-1 {
+		if x >= 0 && x <= len(xs[0])-1 {
+			return true
+		}
+	}
+	return false
+}
+
+func neighbours(x, y int) []pair {
+	return []pair{
+		{x - 1, y - 1},
+		{x, y - 1},
+		{x + 1, y - 1},
+
+		{x - 1, y},
+		{x + 1, y},
+
+		{x - 1, y + 1},
+		{x, y + 1},
+		{x + 1, y + 1},
+	}
 }
