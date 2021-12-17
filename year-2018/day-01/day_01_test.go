@@ -1,4 +1,4 @@
-package year_2018
+package day_01
 
 import (
 	"bufio"

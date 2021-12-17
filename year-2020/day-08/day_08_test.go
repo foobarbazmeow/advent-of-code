@@ -1,4 +1,4 @@
-package year_2020
+package day_08
 
 import (
 	"fmt"
