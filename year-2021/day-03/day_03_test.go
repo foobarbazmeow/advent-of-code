@@ -1,7 +1,9 @@
-package year_2021
+package day_03
 
 import (
+	"bufio"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"strconv"
 	"testing"
 )
@@ -78,4 +80,15 @@ func search(strings []string, idx int, data []int, greater bool) string {
 		}
 		return search(strings, idx+1, o, greater)
 	}
+}
+
+func readLines(filepath string) []string {
+	xs := make([]string, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, scanner.Text())
+	}
+	return xs
 }

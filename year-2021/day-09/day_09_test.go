@@ -1,4 +1,4 @@
-package year_2021
+package day_09
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -157,4 +157,8 @@ func around(x, y int) []pair {
 		{x, y - 1},
 		{x, y + 1},
 	}
+}
+
+type pair struct {
+	x, y int
 }

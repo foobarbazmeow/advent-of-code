@@ -1,4 +1,4 @@
-package year_2021
+package day_11
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -124,4 +124,8 @@ func neighbours(x, y int) []pair {
 		{x, y + 1},
 		{x + 1, y + 1},
 	}
+}
+
+type pair struct {
+	x, y int
 }

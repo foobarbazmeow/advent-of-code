@@ -1,7 +1,9 @@
-package year_2021
+package day_08
 
 import (
+	"bufio"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"sort"
 	"strings"
 	"testing"
@@ -221,4 +223,15 @@ func reverseSlice(xs []byte) map[byte]int {
 		m[v] = i
 	}
 	return m
+}
+
+func readLines(filepath string) []string {
+	xs := make([]string, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, scanner.Text())
+	}
+	return xs
 }

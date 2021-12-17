@@ -1,4 +1,4 @@
-package year_2021
+package day_07
 
 import (
 	"github.com/stretchr/testify/assert"

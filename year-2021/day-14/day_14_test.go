@@ -1,8 +1,10 @@
-package year_2021
+package day_14
 
 import (
+	"bufio"
 	"github.com/stretchr/testify/assert"
 	"math"
+	"os"
 	"strings"
 	"testing"
 )
@@ -61,4 +63,15 @@ func parseRules(xs []string) map[string]byte {
 		m[parts[0]] = []byte(parts[1])[0]
 	}
 	return m
+}
+
+func readLines(filepath string) []string {
+	xs := make([]string, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, scanner.Text())
+	}
+	return xs
 }

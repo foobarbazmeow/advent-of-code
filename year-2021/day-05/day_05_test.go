@@ -1,8 +1,10 @@
-package year_2021
+package day_05
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"testing"
 )
 
@@ -78,6 +80,17 @@ func values(m map[string]int) []int {
 	xs := make([]int, 0)
 	for _, v := range m {
 		xs = append(xs, v)
+	}
+	return xs
+}
+
+func readLines(filepath string) []string {
+	xs := make([]string, 0)
+	file, _ := os.Open(filepath)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		xs = append(xs, scanner.Text())
 	}
 	return xs
 }
