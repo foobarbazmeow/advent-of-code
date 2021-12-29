@@ -1,7 +1,6 @@
 package day_20
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"os"
@@ -11,28 +10,27 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	tcs := []struct {
-		filepath string
-		ext      int
-		lit      int
-	}{
-		{"day_20.in", 2, 5316},
-		{"day_20.in", 50, 16728},
+	code, image := parse(read("day_20.in"), 2)
+	for i := 0; i < 2; i++ {
+		if !code[0] {
+			image = enhance(code, image, false)
+		} else {
+			image = enhance(code, image, i%2 == 1)
+		}
 	}
+	assert.Equal(t, 5316, count(image))
+}
 
-	for _, tc := range tcs {
-		t.Run(fmt.Sprint(tc), func(t *testing.T) {
-			code, image := parse(read(tc.filepath), tc.ext)
-			for i := 0; i < tc.ext; i++ {
-				if !code[0] {
-					image = enhance(code, image, false)
-				} else {
-					image = enhance(code, image, i%2 == 1)
-				}
-			}
-			assert.Equal(t, tc.lit, count(image))
-		})
+func TestPart2(t *testing.T) {
+	code, image := parse(read("day_20.in"), 50)
+	for i := 0; i < 50; i++ {
+		if !code[0] {
+			image = enhance(code, image, false)
+		} else {
+			image = enhance(code, image, i%2 == 1)
+		}
 	}
+	assert.Equal(t, 16728, count(image))
 }
 
 func read(filepath string) string {
